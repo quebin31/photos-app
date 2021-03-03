@@ -1,6 +1,7 @@
 package co.ravn.kevin.photosapp.ui.photos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,5 +28,15 @@ class PhotosFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.photos.observe(viewLifecycleOwner) {
+            Log.d(TAG, "onViewCreated: photos = $it")
+        }
+    }
+
+    companion object {
+        private const val TAG = "PhotosFragment"
     }
 }
