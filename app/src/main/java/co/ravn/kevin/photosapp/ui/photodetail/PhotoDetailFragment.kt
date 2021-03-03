@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import co.ravn.kevin.photosapp.databinding.FragmentPhotoDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PhotoDetailFragment : Fragment() {
 
     private var _binding: FragmentPhotoDetailBinding? = null
