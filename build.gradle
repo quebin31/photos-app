@@ -4,6 +4,7 @@ buildscript {
     ext {
         kotlin_version = "1.4.31"
         nav_version = '2.3.3'
+        hilt_version = '2.33-beta'
     }
 
     repositories {
@@ -15,9 +16,7 @@ buildscript {
         //noinspection AndroidGradlePluginVersion
         classpath "com.android.tools.build:gradle:4.2.0-beta05"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
 }
 
