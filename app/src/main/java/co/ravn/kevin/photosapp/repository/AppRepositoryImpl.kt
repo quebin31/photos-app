@@ -15,9 +15,10 @@ class AppRepositoryImpl @Inject constructor (db: AppDatabase) : AppRepository {
         val photos = photoDao.getPhotos()
         emitSource(photos)
 
-        delay(50) // wait until `photos` has emitted a value
-        Log.d(TAG, "getPhotos: latestValue = $latestValue")
+        while (latestValue == null)
+            delay(50)
 
+        Log.d(TAG, "getPhotos: latestValue = $latestValue")
         if (latestValue?.isEmpty() == true) {
             // TODO: get from network
             val newPhotos = emptyList<Photo>()
