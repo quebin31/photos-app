@@ -1,11 +1,14 @@
 package co.ravn.kevin.photosapp.ui.photos
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.ravn.kevin.photosapp.R
@@ -38,7 +41,15 @@ class PhotosFragment : Fragment() {
         _binding = null
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(android.R.transition.fade)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
         initUi()
         initObservers()
     }
@@ -63,15 +74,16 @@ class PhotosFragment : Fragment() {
             } else {
                 noData.gone()
             }
+
+            root.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
         }
     }
 
-    private fun navigateToPhotoDetail(photo: Photo) {
+    private fun navigateToPhotoDetail(photo: Photo, transitions: Array<Pair<View, String>>) {
         val directions = PhotosFragmentDirections.actionShowPhotoDetail(photo)
-        findNavController().navigate(directions)
-    }
-
-    companion object {
-        private const val TAG = "PhotosFragment"
+        val extras = FragmentNavigatorExtras(*transitions)
+        findNavController().navigate(directions, extras)
     }
 }
