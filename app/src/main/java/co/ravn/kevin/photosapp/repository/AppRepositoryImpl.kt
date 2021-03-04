@@ -5,10 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import co.ravn.kevin.photosapp.database.AppDatabase
 import co.ravn.kevin.photosapp.model.Photo
-import javax.inject.Inject
+import co.ravn.kevin.photosapp.networking.Api
+import co.ravn.kevin.photosapp.utils.Result
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class AppRepositoryImpl @Inject constructor (db: AppDatabase) : AppRepository {
+class AppRepositoryImpl @Inject constructor(private val api: Api, db: AppDatabase) : AppRepository {
     private val photoDao = db.photoDao()
 
     override fun getPhotos(): LiveData<List<Photo>> = liveData {
@@ -20,8 +22,17 @@ class AppRepositoryImpl @Inject constructor (db: AppDatabase) : AppRepository {
 
         Log.d(TAG, "getPhotos: latestValue = $latestValue")
         if (latestValue?.isEmpty() == true) {
-            // TODO: get from network
-            val newPhotos = emptyList<Photo>()
+            val newPhotos = when (val result = api.getPhotos()) {
+                is Result.Ok -> {
+                    result.value.subList(0, PHOTO_LIMIT)
+                }
+
+                is Result.Err<*> -> {
+                    Log.e(TAG, "getPhotos: failed to fetch photos!")
+                    emptyList()
+                }
+            }
+
             photoDao.insertPhotos(newPhotos)
         }
     }
