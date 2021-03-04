@@ -11,7 +11,7 @@
         android:label="@string/photos"
         tools:layout="@layout/fragment_photos" >
         <action
-            android:id="@+id/action_photos_fragment_to_photoDetailFragment"
+            android:id="@+id/action_show_photo_detail"
             app:destination="@id/photo_detail_fragment" />
     </fragment>
 
@@ -21,7 +21,7 @@
         android:label="@string/photo_detail"
         tools:layout="@layout/fragment_photo_detail" >
         <argument
-            android:name="photo_id"
-            app:argType="integer" />
+            android:name="photo"
+            app:argType="co.ravn.kevin.photosapp.model.Photo" />
     </fragment>
 </navigation>
