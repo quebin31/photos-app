@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Photos App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="photos">Photos</string>
     <string name="photo_detail">Photo detail</string>
     <string name="photo_thumbnail">Photo thumbnail</string>
+    <string name="no_data_available">No data available</string>
 </resources>
