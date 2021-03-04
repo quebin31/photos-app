@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.ravn.kevin.photosapp.R
 import co.ravn.kevin.photosapp.databinding.FragmentPhotosBinding
@@ -66,7 +67,8 @@ class PhotosFragment : Fragment() {
     }
 
     private fun navigateToPhotoDetail(photo: Photo) {
-        // TODO: navigate using safe args
+        val directions = PhotosFragmentDirections.actionShowPhotoDetail(photo)
+        findNavController().navigate(directions)
     }
 
     companion object {
