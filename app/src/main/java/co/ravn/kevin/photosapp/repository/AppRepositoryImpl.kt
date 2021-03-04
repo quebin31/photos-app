@@ -20,7 +20,6 @@ class AppRepositoryImpl @Inject constructor(private val api: Api, db: AppDatabas
         while (latestValue == null)
             delay(50)
 
-        Log.d(TAG, "getPhotos: latestValue = $latestValue")
         if (latestValue?.isEmpty() == true) {
             val newPhotos = when (val result = api.getPhotos()) {
                 is Result.Ok -> {
