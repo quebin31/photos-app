@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.ravn.kevin.photosapp.databinding.ListItemPhotoBinding
 import co.ravn.kevin.photosapp.model.Photo
+import co.ravn.kevin.photosapp.utils.getMockUrlImage
 import com.bumptech.glide.Glide
 
 
@@ -35,10 +36,8 @@ class PhotoAdapter(private val onClick: OnClickCallback) : RecyclerView.Adapter<
 
 class PhotoViewHolder(private val binding: ListItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(photo: Photo, onClick: OnClickCallback) = with(binding) {
-        val context = itemView.context
-
         title.text = photo.title
-        Glide.with(context).load(photo.thumbnailUrl).into(thumbnail)
+        Glide.with(itemView).load(photo.getMockUrlImage()).into(thumbnail)
 
         root.setOnClickListener { onClick(photo) }
     }
