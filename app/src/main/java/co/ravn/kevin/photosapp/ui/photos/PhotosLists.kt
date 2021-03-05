@@ -38,20 +38,9 @@ class PhotoAdapter(private val onClick: OnClickCallback) : RecyclerView.Adapter<
 
 class PhotoViewHolder(private val binding: ListItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(photo: Photo, onClick: OnClickCallback) = with(binding) {
-        val context = itemView.context
-        val transitionName = "photo-${photo.id}"
+        this.photo = photo
 
-        title.text = photo.title
-        thumbnail.transitionName = transitionName
-
-        val circularProgressDrawable = CircularProgressDrawable(context)
-        circularProgressDrawable.strokeWidth = 5f
-        circularProgressDrawable.centerRadius = 30f
-        circularProgressDrawable.start()
-
-        GlideApp.with(context).load(photo.getMockUrlImage()).placeholder(circularProgressDrawable).into(thumbnail)
-
-        val imageTransition = thumbnail as View to transitionName
+        val imageTransition = thumbnail as View to "${photo.id}"
         root.setOnClickListener { onClick(photo, arrayOf(imageTransition)) }
     }
 }
