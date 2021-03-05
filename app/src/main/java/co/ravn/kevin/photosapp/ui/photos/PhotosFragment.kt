@@ -50,13 +50,18 @@ class PhotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         postponeEnterTransition()
+        initBinding()
         initUi()
         initObservers()
     }
 
+    private fun initBinding() = with(binding) {
+        lifecycleOwner = viewLifecycleOwner
+        viewModel = this@PhotosFragment.viewModel
+    }
+
     private fun initUi() = with(binding) {
         progress.visible()
-        noData.gone()
 
         val spacing = resources.getDimensionPixelSize(R.dimen.padding_standard)
         photosList.addItemDecoration(SpacingItemDecorator(spacing))
@@ -64,18 +69,12 @@ class PhotosFragment : Fragment() {
         photosList.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun initObservers() = with(binding) {
+    private fun initObservers() {
         viewModel.photos.observe(viewLifecycleOwner) { photos ->
             adapter.updateData(photos)
+            binding.progress.gone()
 
-            progress.gone()
-            if (photos.isEmpty()) {
-                noData.visible()
-            } else {
-                noData.gone()
-            }
-
-            root.doOnPreDraw {
+            binding.root.doOnPreDraw {
                 startPostponedEnterTransition()
             }
         }
