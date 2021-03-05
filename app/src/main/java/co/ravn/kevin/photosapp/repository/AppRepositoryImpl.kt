@@ -7,13 +7,16 @@ import co.ravn.kevin.photosapp.database.AppDatabase
 import co.ravn.kevin.photosapp.model.Photo
 import co.ravn.kevin.photosapp.networking.Api
 import co.ravn.kevin.photosapp.utils.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class AppRepositoryImpl @Inject constructor(private val api: Api, db: AppDatabase) : AppRepository {
     private val photoDao = db.photoDao()
 
-    override fun getPhotos(): LiveData<List<Photo>> = liveData {
+    override fun getPhotos(): LiveData<List<Photo>> = liveData(Dispatchers.IO) {
+        Log.d(TAG, "getPhotos: thread: ${Thread.currentThread().name}")
+
         val photos = photoDao.getPhotos()
         emitSource(photos)
 
